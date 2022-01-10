@@ -30,7 +30,7 @@
 		<section class="section">
 			<div class="container">
 				<h1 class="title">Simpson API</h1>
-
+				<button id="myBtn">Change Quote</button>
 				<div class="content" id="simpson"></div>
 			</div>
 		</section>
@@ -41,6 +41,33 @@
 			integrity="sha256-S1J4GVHHDMiirir9qsXWc8ZWw74PHHafpsHp5PXtjTs="
 			crossorigin="anonymous"
 		></script>
-		<script></script>
+		<script>
+			function fetchQuotesJSON() {
+				const num = 1;
+				const url = `https://thesimpsonsquoteapi.glitch.me/quotes?count=${num}`;
+				axios.get(url)
+						.then(function(response) {
+							return response.data;
+						})
+						.then(function(quote) {
+							console.log('data decoded from JSON:', quote);
+
+							// Build a block of HTML
+							const quotesHtml = `
+									<p><strong>${quote[0].character}</strong></p>
+        							<img src="${quote[0].image}" />
+        							<p><strong>${quote[0].quote}</strong></p>
+      								`;
+							document.querySelector('#simpson').innerHTML = quotesHtml;
+						});
+			}
+
+			fetchQuotesJSON();
+
+			document.getElementById("myBtn").addEventListener("click", function() {
+				fetchQuotesJSON();
+			});
+
+		</script>
 	</body>
 </html>
